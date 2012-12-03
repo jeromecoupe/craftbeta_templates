@@ -1,0 +1,45 @@
+{% extends "_layouts/base" %}
+{% set pageTitle 		= "Yearly Archives" %}
+{% set activeYear 		= blx.request.segment(3)|default("now"|date("Y")) %}
+{% set nextYear 		= activeYear + 1 %}
+
+
+{% set content %}
+
+	{# get all blog entries for that year #}
+	{% for entry in blx.entries.section('blog').status('Live').order('postDate asc').after(activeYear).before(nextYear).find %}
+
+		{# begin list on first loop #}
+		{% if loop.first %}<h2>Blog Posts Archive for {{ activeYear }}</h2><ul>{% endif %}
+
+		<li>
+			<article>
+				<header>
+					<h1><a href="{{ entry.url }}">{{ entry.title }}</a></h1>
+					<p>Posted on {{ entry.postDate|date("M d, Y") }} in {{ entry.section }} by {{ entry.author }}</p>
+				</header>
+				<div>
+					{{ entry.summary|raw }}
+				</div>
+			</article>
+		</li>
+
+		{# end list on last loop #}
+		{% if loop.last %}</ul>{% endif %}
+
+		{# if nothing found #}
+		{% else %}<p>No Blogposts available</p>
+
+	{% endfor %}
+
+	{# need a way to automate the archive links #}
+	<ul>
+		<li><a href="/blog/archives/2011">2011</a></li>
+		<li><a href="/blog/archives/2012">2012</a></li>
+	</ul>
+
+	{# back to blog #}
+	<p><a href="/blog/">Back to blog page</a></p>
+
+{% endset %}
+

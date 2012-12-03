@@ -1,0 +1,35 @@
+{% extends "_layouts/base" %}
+{% set pageTitle 		= "My Blog" %}
+
+{% set content %}
+
+	{# get all blog entries #}
+	{% for entry in blx.entries.section('blog').status('Live').order('postDate desc').find %}
+
+		{# begin list on first loop #}
+		{% if loop.first %}<h2>Blog Posts</h2><ul>{% endif %}
+
+		<li>
+			<article>
+				<header>
+					<h1><a href="{{ entry.url }}">{{ entry.title }}</a></h1>
+					<p>Posted on {{ entry.postDate|date("M d, Y") }} in {{ entry.section }} by {{ entry.author }}</p>
+				</header>
+				<div>
+					{{ entry.summary|raw }}
+				</div>
+			</article>
+		</li>
+
+		{# end list on last loop #}
+		{% if loop.last %}</ul>{% endif %}
+
+		{# if nothing found #}
+		{% else %}<p>No Blogposts available</p>
+
+	{% endfor %}
+
+	{# yearly archives #}
+	<p><a href="/blog/archives/">Yearly archives</a></p>
+
+{% endset %}

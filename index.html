@@ -1,0 +1,37 @@
+{% extends "_layouts/base" %}
+{% set pageTitle 		= "Homepage" %}
+{% set totalBlogposts = blx.entries.section('blog').status('Live').total %}
+
+
+{% set content %}
+
+	{# Global Block #}
+	{{ globals.homepageIntro }}
+
+	{# If blogposts exists, display the latest 3 #}
+	{% if totalBlogposts > 0 %}
+
+		<h1>Latest Blogposts</h1>
+		<ul>
+			{% for entry in blx.entries.section('blog').status('Live').order('postDate asc').limit('3').find %}
+				<li>
+					<article>
+						<header>
+							<h1><a href="{{ entry.url }}">{{ entry.title }}</a></h1>
+							<p>Posted on {{ entry.postDate|date("M d, Y") }} in {{ entry.section }} by {{ entry.author }}</p>
+						</header>
+					</article>
+				</li>
+			{% endfor %}
+		</ul>
+
+		<p><a href="/blog/">All blogposts</a></p>
+
+	{% else %}
+
+		<p>No blogposts currently available</p>
+
+	{% endif %}
+
+{% endset %}
+
