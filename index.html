@@ -1,6 +1,6 @@
 {% extends "_layouts/base" %}
 {% set pageTitle 		= "Homepage" %}
-{% set totalBlogposts = blx.entries.section('blog').status('Live').total %}
+{% set totalBlogposts 	= blx.entries.section('blog').status('Live').total %}
 
 
 {% set content %}
@@ -8,7 +8,8 @@
 	{# Global Block #}
 	{{ globals.homepageIntro }}
 
-	{# If blogposts exists, display the latest 3 #}
+	{# If blogposts exists, display the latest 3. #}
+	{# Shorter twig method used in all other templates #}
 	{% if totalBlogposts > 0 %}
 
 		<h1>Latest Blogposts</h1>
