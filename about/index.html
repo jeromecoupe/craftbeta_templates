@@ -1,12 +1,23 @@
-{% extends "_layouts/base" %}
-{% set account 			= blx.users.id(1).first() %}
-{% set pageTitle 		= "About #{account.firstName} #{account.lastName}" %}
+{% extends "_layouts/_base" %}
+{% set account = blx.users.id(1).first() %}
 
-{% set content %}
+{# TITLE #}
+{% block pageTitle %}About {{ account.firstName }} {{ account.lastName }}{% endblock %}
 
+{# NAVIGATION #}
+{% block navigation %}
+	{% set activeNav = "about" %}
+	{% include "/_includes/_navigation.html" %}
+{% endblock %}
+
+{# MAIN CONTENT #}
+{% block content %}
+
+	{# get user info (bui is a custom block) #}
 	<h1>{{ account.lastName }}, {{ account.firstName }}</h1>
 	<div>
+		{# blocks added to users #}
 		{{ account.bio }}
 	</div>
 
-{% endset %}
+{% endblock %}

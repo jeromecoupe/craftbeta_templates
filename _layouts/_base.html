@@ -9,21 +9,17 @@
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width" />
-	<title>{{ pageTitle }}</title>
+	<title>{% block pageTitle %}This is a default title{% endblock %}</title>
 </head>
 <body>
-	<header>
-		<h1>Testing BlocksCMS</h1>
-		<nav class="mainnav">
-			<ul>
-				<li><a href="/">home</a></li>
-				<li><a href="/blog/">blog</a></li>
-				<li><a href="/about/">about</a></li>
-			</ul>
-		</nav>
-	</header>
+
+	<nav class="mainnav">
+		{% block navigation %}Forgot to include navigation{% endblock %}
+	</nav>
+
 	<div role="main">
-		{{ content }}
+		{% block content %}No content defined{% endblock %}
 	</div>
+
 </body>
 </html>

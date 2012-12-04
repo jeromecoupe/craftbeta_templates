@@ -1,0 +1,6 @@
+<p>
+	Pagination:
+	{% if paginate.prevUrl is not null %}<a href="{{ paginate.prevUrl }}">Previous Page</a>{% endif %}
+	{% if paginate.prevUrl is not null and paginate.nextUrl is not null %} - {% endif %}
+	{% if paginate.nextUrl is not null %}<a href="{{ paginate.nextUrl }}">Next Page</a>{% endif %}
+</p>
