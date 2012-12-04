@@ -1,61 +1,71 @@
-{% extends "_layouts/base" %}
-{% set pageTitle 		= entry.title %}
+{% extends "_layouts/_base" %}
+
 {% set currentDate 		= date() %}
 {% set daysSincepost 	= currentDate|date("Ymd") - entry.postDate|date("Ymd") %}
 
-{% set content %}
+{# TITLE #}
+{% block pageTitle %}{{ entry.title }}{% endblock %}
 
-		<article>
-			<header>
-				<h1>{{ entry.title }}</h1>
-				{% if daysSincepost < 30 %}
-					<p>Posted {{ daysSincepost }} days ago in {{ entry.section }} by {{ entry.author }}</p>
-				{% else %}
-					<p>Posted on {{ entry.postDate|date("M d, Y") }} in {{ entry.section }} by {{ entry.author }}</a></p>
-				{% endif %}
-				<div>
-					{{ entry.summary|raw }}
-				</div>
-			</header>
+{# NAVIGATION #}
+{% block navigation %}
+	{% set activeNav = "blog" %}
+	{% include "/_includes/_navigation.html" %}
+{% endblock %}
 
-			{{ entry.body|raw }}
+{# MAIN CONTENT #}
+{% block content %}
 
+	<article>
+		<header>
+			<h1>{{ entry.title }}</h1>
+			{% if daysSincepost < 30 %}
+				<p>Posted {{ daysSincepost }} days ago in {{ entry.section }} by {{ entry.author }}</p>
+			{% else %}
+				<p>Posted on {{ entry.postDate|date("M d, Y") }} in {{ entry.section }} by {{ entry.author }}</a></p>
+			{% endif %}
 			<div>
-
-				{# check if tags are found for entry and list them #}
-				{% for tag in entry.tags %}
-
-					{# begin list on first loop #}
-					{% if loop.first %}<h2>Entry Tags</h2><ul>{% endif %}
-
-						<li>{{ tag }}</li>
-
-					{# end list on last loop #}
-					{% if loop.last %}</ul>{% endif %}
-
-					{# if nothing found #}
-					{% else %}<p>No tags found</p>
-
-				{% endfor %}
-
-				{# check if linked images are found for entry and list them #}
-				{% for image in entry.blogImages %}
-
-					{# begin list on first loop #}
-					{% if loop.first %}<h2>Entry Images</h2><ul>{% endif %}
-
-						<li><img src="{{ image.url }}" /></li>
-
-					{# end list on last loop #}
-					{% if loop.last %}</ul>{% endif %}
-
-					{# if nothing found #}
-					{% else %}<p>No Images found</p>
-
-				{% endfor %}
-
+				{{ entry.summary|raw }}
 			</div>
+		</header>
 
-		</article>
+		{{ entry.body|raw }}
 
-{% endset %}
+		<div>
+
+			{# check if tags are found for entry and list them #}
+			{% for tag in entry.tags %}
+
+				{# begin list on first loop #}
+				{% if loop.first %}<h2>Entry Tags</h2><ul>{% endif %}
+
+					<li>{{ tag }}</li>
+
+				{# end list on last loop #}
+				{% if loop.last %}</ul>{% endif %}
+
+				{# if nothing found #}
+				{% else %}<p>No tags found</p>
+
+			{% endfor %}
+
+			{# check if linked images are found for entry and list them #}
+			{% for image in entry.blogImages %}
+
+				{# begin list on first loop #}
+				{% if loop.first %}<h2>Entry Images</h2><ul>{% endif %}
+
+					<li><img src="{{ image.url }}" /></li>
+
+				{# end list on last loop #}
+				{% if loop.last %}</ul>{% endif %}
+
+				{# if nothing found #}
+				{% else %}<p>No Images found</p>
+
+			{% endfor %}
+
+		</div>
+
+	</article>
+
+{% endblock %}

@@ -1,10 +1,19 @@
-{% extends "_layouts/base" %}
-{% set pageTitle 		= "Yearly Archives" %}
+{% extends "_layouts/_base" %}
+
 {% set activeYear 		= blx.request.segment(3)|default("now"|date("Y")) %}
 {% set nextYear 		= activeYear + 1 %}
 
+{# TITLE #}
+{% block pageTitle %}Yearly Archives{% endblock %}
 
-{% set content %}
+{# NAVIGATION #}
+{% block navigation %}
+	{% set activeNav = "blog" %}
+	{% include "/_includes/_navigation.html" %}
+{% endblock %}
+
+{# MAIN CONTENT #}
+{% block content %}
 
 	{# get all blog entries for that year #}
 	{% for entry in blx.entries.section('blog').status('Live').order('postDate asc').after(activeYear).before(nextYear).find %}
@@ -41,5 +50,4 @@
 	{# back to blog #}
 	<p><a href="/blog/">Back to blog page</a></p>
 
-{% endset %}
-
+{% endblock %}

@@ -1,0 +1,14 @@
+{# passing variable here but could also do it dynamically using segments #}
+{% if currentNav is defined %}
+	<ul>
+		<li{% if activeNav == "home" %} class="current"{% endif %}><a href="/">home</a></li>
+		<li{% if activeNav == "blog" %} class="current"{% endif %}><a href="/blog/">blog</a></li>
+		<li{% if activeNav == "about" %} class="current"{% endif %}><a href="/about/">about</a></li>
+	</ul>
+{% else %}
+	<ul>
+		<li><a href="/">home</a></li>
+		<li><a href="/blog/">blog</a></li>
+		<li><a href="/about/">about</a></li>
+	</ul>
+{% endif %}

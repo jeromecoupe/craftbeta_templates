@@ -1,38 +1,39 @@
-{% extends "_layouts/base" %}
-{% set pageTitle 		= "Homepage" %}
-{% set totalBlogposts 	= blx.entries.section('blog').status('Live').total %}
+{% extends "_layouts/_base" %}
 
+{# TITLE #}
+{% block pageTitle %}Home Page{% endblock %}
 
-{% set content %}
+{# NAVIGATION #}
+{% block navigation %}
+	{% set activeNav = "home" %}
+	{% include "/_includes/_navigation.html" %}
+{% endblock %}
+
+{# MAIN CONTENT #}
+{% block content %}
 
 	{# Global Block #}
 	{{ globals.homepageIntro }}
 
 	{# If blogposts exists, display the latest 3. #}
-	{# Shorter twig method used in all other templates #}
-	{% if totalBlogposts > 0 %}
+	{% for entry in blx.entries.section('blog').status('Live').order('postDate asc').limit(3).find %}
 
-		<h1>Latest Blogposts</h1>
-		<ul>
-			{% for entry in blx.entries.section('blog').status('Live').order('postDate asc').limit('3').find %}
-				<li>
-					<article>
-						<header>
-							<h1><a href="{{ entry.url }}">{{ entry.title }}</a></h1>
-							<p>Posted on {{ entry.postDate|date("M d, Y") }} in {{ entry.section }} by {{ entry.author }}</p>
-						</header>
-					</article>
-				</li>
-			{% endfor %}
-		</ul>
+		{# begin list on first loop #}
+		{% if loop.first %}<h1>Latest Blogposts</h1><ul>{% endif %}
+			<li>
+				<article>
+					<header>
+						<h1><a href="{{ entry.url }}">{{ entry.title }}</a></h1>
+						<p>Posted on {{ entry.postDate|date("M d, Y") }} in {{ entry.section }} by {{ entry.author }}</p>
+					</header>
+				</article>
+			</li>
+		{# end list on last loop #}
+		{% if loop.last %}</ul><p><a href="/blog/">All blogposts</a></p>{% endif %}
 
-		<p><a href="/blog/">All blogposts</a></p>
+		{# if nothing found #}
+		{% else %}<p>No blogposts currently available</p>
 
-	{% else %}
+	{% endfor %}
 
-		<p>No blogposts currently available</p>
-
-	{% endif %}
-
-{% endset %}
-
+{% endblock %}

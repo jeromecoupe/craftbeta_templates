@@ -1,9 +1,17 @@
-{% extends "_layouts/base" %}
-{% set pageTitle 		= "404 page not found" %}
+{% extends "_layouts/_base" %}
 
-{% set content %}
+{# TITLE #}
+{% block pageTitle %}404 page not found{% endblock %}
+
+{# NAVIGATION #}
+{% block navigation %}
+	{% include "/_includes/_navigation.html" %}
+{% endblock %}
+
+{# MAIN CONTENT #}
+{% block content %}
 
 	{# Global Block #}
 	{{ globals.fourOfour }}
 
-{% endset %}
+{% endblock %}

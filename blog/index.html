@@ -1,35 +1,51 @@
-{% extends "_layouts/base" %}
-{% set pageTitle 		= "My Blog" %}
+{% extends "_layouts/_base" %}
 
-{% set content %}
+{# TITLE #}
+{% block pageTitle %}My Blog{% endblock %}
 
-	{# get all blog entries #}
-	{% for entry in blx.entries.section('blog').status('Live').order('postDate desc').find %}
+{# NAVIGATION #}
+{% block navigation %}
+	{% set activeNav = "blog" %}
+	{% include "/_includes/_navigation.html" %}
+{% endblock %}
 
-		{# begin list on first loop #}
-		{% if loop.first %}<h2>Blog Posts</h2><ul>{% endif %}
+{# MAIN CONTENT #}
+{% block content %}
 
-		<li>
-			<article>
-				<header>
-					<h1><a href="{{ entry.url }}">{{ entry.title }}</a></h1>
-					<p>Posted on {{ entry.postDate|date("M d, Y") }} in {{ entry.section }} by {{ entry.author }}</p>
-				</header>
-				<div>
-					{{ entry.summary|raw }}
-				</div>
-			</article>
-		</li>
+	{# get all blog entries and paginate #}
+	{% paginate blx.entries.section('blog').status('Live').order('postDate desc').limit(2) as entries %}
 
-		{# end list on last loop #}
-		{% if loop.last %}</ul>{% endif %}
+		{% for entry in entries %}
 
-		{# if nothing found #}
-		{% else %}<p>No Blogposts available</p>
+			{# begin list on first loop #}
+			{% if loop.first %}<h2>Blog Posts</h2><ul>{% endif %}
 
-	{% endfor %}
+				<li>
+					<article>
+						<header>
+							<h1><a href="{{ entry.url }}">{{ entry.title }}</a></h1>
+							<p>Posted on {{ entry.postDate|date("M d, Y") }} in {{ entry.section }} by {{ entry.author }}</p>
+						</header>
+						<div>
+							{{ entry.summary|raw }}
+						</div>
+					</article>
+				</li>
+
+			{# end list on last loop #}
+			{% if loop.last %}</ul>{% endif %}
+
+			{# if nothing found #}
+			{% else %}<p>No Blogposts available</p>
+
+		{% endfor %}
+
+		{# pagination #}
+		{% include "/_includes/_pagination.html" %}
+
+	{% endpaginate %}
 
 	{# yearly archives #}
 	<p><a href="/blog/archives/">Yearly archives</a></p>
 
-{% endset %}
+{% endblock %}
