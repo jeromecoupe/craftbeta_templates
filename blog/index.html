@@ -13,9 +13,9 @@
 {% block content %}
 
 	{# get all blog entries and paginate #}
-	{% paginate blx.entries.section('blog').status('Live').order('postDate desc').limit(2) as entries %}
+	{% paginate blx.entries.section('blog').status('Live').order('postDate desc').limit(3) as blogentries %}
 
-		{% for entry in entries %}
+		{% for entry in blogentries %}
 
 			{# begin list on first loop #}
 			{% if loop.first %}<h2>Blog Posts</h2><ul>{% endif %}

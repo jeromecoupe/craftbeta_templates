@@ -1,5 +1,6 @@
 {% extends "_layouts/_base" %}
 
+{# some date manipulation #}
 {% set currentDate 		= date() %}
 {% set daysSincepost 	= currentDate|date("Ymd") - entry.postDate|date("Ymd") %}
 
@@ -54,7 +55,8 @@
 				{# begin list on first loop #}
 				{% if loop.first %}<h2>Entry Images</h2><ul>{% endif %}
 
-					<li><img src="{{ image.url }}" /></li>
+					{# using transformations handles to display the generated thumbnails #}
+					<li><img src="{{ image.getUrl('ThumbMedium') }}" /><img src="{{ image.getUrl('ThumbSmall') }}" /></li>
 
 				{# end list on last loop #}
 				{% if loop.last %}</ul>{% endif %}

@@ -1,4 +1,5 @@
 {% extends "_layouts/_base" %}
+{% set entries = blx.entries.section('blog').status('Live').order('postDate desc').limit(3).find() %}
 
 {# TITLE #}
 {% block pageTitle %}Home Page{% endblock %}
@@ -16,7 +17,7 @@
 	{{ globals.homepageIntro }}
 
 	{# If blogposts exists, display the latest 3. #}
-	{% for entry in blx.entries.section('blog').status('Live').order('postDate asc').limit(3).find %}
+	{% for entry in entries %}
 
 		{# begin list on first loop #}
 		{% if loop.first %}<h1>Latest Blogposts</h1><ul>{% endif %}

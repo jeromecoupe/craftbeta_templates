@@ -1,7 +1,13 @@
 {% extends "_layouts/_base" %}
 
-{% set activeYear 		= blx.request.segment(3)|default("now"|date("Y")) %}
+{# dates we will need in template #}
+{# created a custom route in blocks with a "year" token pointing to this template. The year token is thus a "year" variable we can use (third url segment) #}
+{% set thisYear 		= now.year %} 					{# blocks native date variable now #}
+{% set activeYear 		= year|default(thisYear) %}		{# get the year variable from the URL or default to current year #}
 {% set nextYear 		= activeYear + 1 %}
+{% set firstEntry 		= blx.entries.section('blog').status('Live').order('postDate asc').first() %}
+{% set firstYear 		= firstEntry.postDate|date("Y") %}
+{% set entries 			= blx.entries.section('blog').status('Live').order('postDate desc').before(nextYear).after(activeYear).find() %}
 
 {# TITLE #}
 {% block pageTitle %}Yearly Archives{% endblock %}
@@ -15,8 +21,12 @@
 {# MAIN CONTENT #}
 {% block content %}
 
+	<p>Active year: {{ activeYear }}</p>
+	<p>Next year: {{ nextYear }}</p>
+	<p>First Entry: {{ firstYear }}</p>
+
 	{# get all blog entries for that year #}
-	{% for entry in blx.entries.section('blog').status('Live').order('postDate asc').after(activeYear).before(nextYear).find %}
+	{% for entry in entries %}
 
 		{# begin list on first loop #}
 		{% if loop.first %}<h2>Blog Posts Archive for {{ activeYear }}</h2><ul>{% endif %}
@@ -37,15 +47,19 @@
 		{% if loop.last %}</ul>{% endif %}
 
 		{# if nothing found #}
-		{% else %}<p>No Blogposts available</p>
+		{% else %}<p>No blogpost published in {{ activeYear }}</p>
 
 	{% endfor %}
 
-	{# need a way to automate the archive links #}
-	<ul>
-		<li><a href="/blog/archives/2011">2011</a></li>
-		<li><a href="/blog/archives/2012">2012</a></li>
-	</ul>
+	{# yearly archive list (uses twig iteration in a for loop http://twig.sensiolabs.org/doc/tags/for.html) #}
+	{% for year in thisYear..firstYear %}
+		{% if loop.first %}<h2>Yearly archives</h2><ul>{% endif %}
+			{% set total = blx.entries.after(year).before(year+1).total %}
+			{% if total %}
+				<li> <a href="{{ url('blog/archives/'~year) }}">{{ year }}</a> ({{ total }} entries)</li>
+			{% endif %}
+		{% if loop.last %}</ul>{% endif %}
+	{% endfor %}
 
 	{# back to blog #}
 	<p><a href="/blog/">Back to blog page</a></p>
