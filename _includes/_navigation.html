@@ -1,5 +1,5 @@
 {# passing variable here but could also do it dynamically using segments #}
-{% if currentNav is defined %}
+{% if activeNav is defined %}
 	<ul>
 		<li{% if activeNav == "home" %} class="current"{% endif %}><a href="/">home</a></li>
 		<li{% if activeNav == "blog" %} class="current"{% endif %}><a href="/blog/">blog</a></li>
