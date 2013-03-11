@@ -1,5 +1,5 @@
 {% extends "_layouts/_base" %}
-{% set account = blx.users.id(1).first() %}
+{% set account = craft.users.id(1).first() %}
 
 {# TITLE #}
 {% block pageTitle %}About {{ account.firstName }} {{ account.lastName }}{% endblock %}

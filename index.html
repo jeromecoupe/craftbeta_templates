@@ -1,5 +1,5 @@
 {% extends "_layouts/_base" %}
-{% set entries = blx.entries.section('blog').status('Live').order('postDate desc').limit(3).find() %}
+{% set entries = craft.entries.section('blog').status('Live').order('postDate desc').limit(3).find() %}
 
 {# TITLE #}
 {% block pageTitle %}Home Page{% endblock %}

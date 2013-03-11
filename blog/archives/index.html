@@ -5,9 +5,9 @@
 {% set thisYear 		= now.year %} 					{# blocks native date variable now #}
 {% set activeYear 		= year|default(thisYear) %}		{# get the year variable from the URL or default to current year #}
 {% set nextYear 		= activeYear + 1 %}
-{% set firstEntry 		= blx.entries.section('blog').status('Live').order('postDate asc').first() %}
+{% set firstEntry 		= craft.entries.section('blog').status('Live').order('postDate asc').first() %}
 {% set firstYear 		= firstEntry.postDate|date("Y") %}
-{% set entries 			= blx.entries.section('blog').status('Live').order('postDate desc').before(nextYear).after(activeYear).find() %}
+{% set entries 			= craft.entries.section('blog').status('Live').order('postDate desc').before(nextYear).after(activeYear).find() %}
 
 {# TITLE #}
 {% block pageTitle %}Yearly Archives{% endblock %}
@@ -54,7 +54,7 @@
 	{# yearly archive list (uses twig iteration in a for loop http://twig.sensiolabs.org/doc/tags/for.html) #}
 	{% for year in thisYear..firstYear %}
 		{% if loop.first %}<h2>Yearly archives</h2><ul>{% endif %}
-			{% set total = blx.entries.after(year).before(year+1).total %}
+			{% set total = craft.entries.after(year).before(year+1).total %}
 			{% if total %}
 				<li> <a href="{{ url('blog/archives/'~year) }}">{{ year }}</a> ({{ total }} entries)</li>
 			{% endif %}
