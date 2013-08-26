@@ -1,8 +1,8 @@
 {% extends "_layouts/_base" %}
 
 {# some date manipulation #}
-{% set currentDate 		= date() %}
-{% set daysSincepost 	= currentDate|date("Ymd") - entry.postDate|date("Ymd") %}
+{% set daysSincepost = (now|date("U") - entry.postDate|date("U"))/86400 %}
+{% set daysSincepost = daysSincepost|number_format %}
 
 {# TITLE #}
 {% block pageTitle %}{{ entry.title }}{% endblock %}
